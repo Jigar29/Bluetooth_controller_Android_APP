@@ -1,4 +1,4 @@
-package com.example.jigaragrawal.bluetooth_controller_android_app;
+package com.example.jigaragrawal.bluetooth_controller;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.jigaragrawal.bluetooth_controller_android_app", appContext.getPackageName());
+        assertEquals("com.example.jigaragrawal.bluetooth_controller", appContext.getPackageName());
     }
 }

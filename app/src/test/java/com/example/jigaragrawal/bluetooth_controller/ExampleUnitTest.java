@@ -1,4 +1,4 @@
-package com.example.jigaragrawal.bluetooth_controller_android_app;
+package com.example.jigaragrawal.bluetooth_controller;
 
 import org.junit.Test;
 

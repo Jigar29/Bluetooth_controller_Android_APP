@@ -1,10 +1,11 @@
 package com.example.jigaragrawal.bluetooth_controller;
 
+import android.bluetooth.BluetoothAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -12,6 +13,18 @@ public class MainActivity extends AppCompatActivity {
 
     private Button pause_button, play_button, up_button, down_button, left_button, right_button;
     private Switch bluetooth_sw;
+    private BluetoothAdapter mBTAdapter;
+
+    protected void setVisibilityOfButtons(int a)
+    {
+        down_button.setVisibility(a);
+        up_button.setVisibility(a);
+        left_button.setVisibility(a);
+        right_button.setVisibility(a);
+        pause_button.setVisibility(a);
+        play_button.setVisibility(a);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +36,17 @@ public class MainActivity extends AppCompatActivity {
         right_button = (Button) findViewById(R.id.right_button);
         left_button = (Button) findViewById(R.id.left_button);
         bluetooth_sw = (Switch) findViewById(R.id.BT_switch);
+
+        mBTAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
+
+        // Bluetooth switch position check if altered by any other activity
+        if(mBTAdapter != null)
+            bluetooth_sw.setChecked(mBTAdapter.isEnabled());
 
         // Bluetooth switch onclick listener setup
         bluetooth_sw.setOnClickListener(new View.OnClickListener() {
@@ -35,29 +54,42 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(bluetooth_sw.isChecked() == true)
                 {
-                    bluetooth_sw.setTextOff("Turn Off");
-                    down_button.setVisibility(View.VISIBLE);
-                    up_button.setVisibility(View.VISIBLE);
-                    left_button.setVisibility(View.VISIBLE);
-                    right_button.setVisibility(View.VISIBLE);
-                    pause_button.setVisibility(View.VISIBLE);
-                    play_button.setVisibility(View.VISIBLE);
+                    //mBTAdapter.enable();
+                    Toast.makeText(MainActivity.this, "Bluetooth module turned on", Toast.LENGTH_LONG);
+                    setVisibilityOfButtons(View.VISIBLE);
                 }
                 else
                 {
-                    bluetooth_sw.setTextOn("Turn On");
-                    down_button.setVisibility(View.INVISIBLE);
-                    up_button.setVisibility(View.INVISIBLE);
-                    left_button.setVisibility(View.INVISIBLE);
-                    right_button.setVisibility(View.INVISIBLE);
-                    pause_button.setVisibility(View.INVISIBLE);
-                    play_button.setVisibility(View.INVISIBLE);
+                    //mBTAdapter.disable();
+                    Toast.makeText(MainActivity.this, "Bluetooth module turned off", Toast.LENGTH_LONG);
+                    setVisibilityOfButtons(View.INVISIBLE);
                 }
             }
         });
 
-        // Play pause button Onclick listener setup
+        // Play button Onclick listener setup
+        play_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+
+        // Pause button onclick listener setup
+        pause_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // Up button Onclick listener setup
+        up_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -65,12 +97,28 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         //Setting the initial state of all the buttons
-        down_button.setVisibility(View.INVISIBLE);
-        up_button.setVisibility(View.INVISIBLE);
-        left_button.setVisibility(View.INVISIBLE);
-        right_button.setVisibility(View.INVISIBLE);
-        pause_button.setVisibility(View.INVISIBLE);
-        play_button.setVisibility(View.INVISIBLE);
+        setVisibilityOfButtons(View.INVISIBLE);
+
+        if(mBTAdapter == null)
+        {
+            Toast.makeText(MainActivity.this, "Bluetooth device is not available\n", Toast.LENGTH_LONG).show();
+            bluetooth_sw.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            Toast.makeText(MainActivity.this, "Bluetooth device Found\n", Toast.LENGTH_LONG).show();
+            bluetooth_sw.setVisibility(View.VISIBLE);
+
+            // Get the initial bluetooth state
+            if(mBTAdapter.isEnabled())
+            {
+                bluetooth_sw.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                bluetooth_sw.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
 

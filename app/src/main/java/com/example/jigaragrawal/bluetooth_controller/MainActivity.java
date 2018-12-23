@@ -38,6 +38,17 @@ public class MainActivity extends AppCompatActivity {
         bluetooth_sw = (Switch) findViewById(R.id.BT_switch);
 
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if(mBTAdapter == null)
+        {
+            Toast.makeText(MainActivity.this, "Bluetooth Adapter is not available\n", Toast.LENGTH_SHORT).show();
+            bluetooth_sw.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            Toast.makeText(MainActivity.this, "Bluetooth Adapter Found\n", Toast.LENGTH_SHORT).show();
+            bluetooth_sw.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -54,14 +65,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(bluetooth_sw.isChecked() == true)
                 {
-                    //mBTAdapter.enable();
-                    Toast.makeText(MainActivity.this, "Bluetooth module turned on", Toast.LENGTH_LONG);
+                    mBTAdapter.enable();
+                    Toast.makeText(MainActivity.this, "Bluetooth turned on", Toast.LENGTH_SHORT).show();
                     setVisibilityOfButtons(View.VISIBLE);
                 }
                 else
                 {
-                    //mBTAdapter.disable();
-                    Toast.makeText(MainActivity.this, "Bluetooth module turned off", Toast.LENGTH_LONG);
+                    mBTAdapter.disable();
+                    Toast.makeText(MainActivity.this, "Bluetooth turned off", Toast.LENGTH_SHORT).show();
                     setVisibilityOfButtons(View.INVISIBLE);
                 }
             }
@@ -71,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         play_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                    Toast.makeText(MainActivity.this, "Play Button Pressed", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -79,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         pause_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(MainActivity.this, "Pause Button Pressed", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -87,7 +98,31 @@ public class MainActivity extends AppCompatActivity {
         up_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Up Button Pressed", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        // Down button Onclick listener setup
+        down_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Down Button Pressed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // left button Onclick listener setup
+        left_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Left Button Pressed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // right button Onclick listener setup
+        right_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Right Button Pressed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -98,28 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Setting the initial state of all the buttons
         setVisibilityOfButtons(View.INVISIBLE);
-
-        if(mBTAdapter == null)
-        {
-            Toast.makeText(MainActivity.this, "Bluetooth device is not available\n", Toast.LENGTH_LONG).show();
-            bluetooth_sw.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
-            Toast.makeText(MainActivity.this, "Bluetooth device Found\n", Toast.LENGTH_LONG).show();
-            bluetooth_sw.setVisibility(View.VISIBLE);
-
-            // Get the initial bluetooth state
-            if(mBTAdapter.isEnabled())
-            {
-                bluetooth_sw.setVisibility(View.VISIBLE);
-            }
-            else
-            {
-                bluetooth_sw.setVisibility(View.INVISIBLE);
-            }
-        }
     }
-
 
 }

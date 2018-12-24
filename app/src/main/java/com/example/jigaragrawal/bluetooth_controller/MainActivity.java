@@ -3,15 +3,16 @@ package com.example.jigaragrawal.bluetooth_controller;
 import android.bluetooth.BluetoothAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button pause_button, play_button, up_button, down_button, left_button, right_button;
+    private Button stop_button, start_button;
+    private ImageButton up_button, down_button, left_button, right_button;
     private Switch bluetooth_sw;
     private BluetoothAdapter mBTAdapter;
 
@@ -21,20 +22,20 @@ public class MainActivity extends AppCompatActivity {
         up_button.setVisibility(a);
         left_button.setVisibility(a);
         right_button.setVisibility(a);
-        pause_button.setVisibility(a);
-        play_button.setVisibility(a);
+        stop_button.setVisibility(a);
+        start_button.setVisibility(a);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pause_button = (Button) findViewById(R.id.pause_button);
-        play_button = (Button) findViewById(R.id.play_button);
-        up_button = (Button) findViewById(R.id.up_button);
-        down_button = (Button) findViewById(R.id.down_button);
-        right_button = (Button) findViewById(R.id.right_button);
-        left_button = (Button) findViewById(R.id.left_button);
+        stop_button = (Button) findViewById(R.id.stop_button);
+        start_button = (Button) findViewById(R.id.start_button);
+        up_button    = (ImageButton) findViewById(R.id.up_button);
+        down_button  = (ImageButton) findViewById(R.id.down_button);
+        right_button = (ImageButton) findViewById(R.id.right_button);
+        left_button  = (ImageButton) findViewById(R.id.left_button);
         bluetooth_sw = (Switch) findViewById(R.id.BT_switch);
 
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -78,16 +79,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Play button Onclick listener setup
-        play_button.setOnClickListener(new View.OnClickListener() {
+        // Start button Onclick listener setup
+        start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     Toast.makeText(MainActivity.this, "Play Button Pressed", Toast.LENGTH_SHORT).show();
+
             }
         });
 
-        // Pause button onclick listener setup
-        pause_button.setOnClickListener(new View.OnClickListener() {
+        // Stop button onclick listener setup
+        stop_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Pause Button Pressed", Toast.LENGTH_SHORT).show();
@@ -132,7 +134,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         //Setting the initial state of all the buttons
-        setVisibilityOfButtons(View.INVISIBLE);
+        if(mBTAdapter.isEnabled())
+            setVisibilityOfButtons(View.VISIBLE);
+        else
+            setVisibilityOfButtons(View.INVISIBLE);
     }
 
 }
